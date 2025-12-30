@@ -4,19 +4,3 @@ builder = "nixpacks"
 [deploy]
 startCommand = "node server.js"
 restartPolicyType = "always"
-```
-
----
-
-## 🎯 الطريقة الأسهل والأسرع:
-
-**هضيف لك المتغيرات اللي ناقصة:**
-
-### اضغط على تاب **Variables**
-
-**تأكد إن المتغيرات دي موجودة:**
-```
-PORT = 3000
-GOOGLE_SERVICE_ACCOUNT_EMAIL = sheets-bot@accounting-mvp-482812.iam.gserviceaccount.com
-GOOGLE_SHEET_ID = 1_Awi9L_CgGZlE4x-HKNWQnGdLY1u30oh7p7ik6S-jNg
-GOOGLE_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
