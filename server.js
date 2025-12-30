@@ -1,6 +1,7 @@
 import express from 'express';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
+import { readFileSync } from 'fs';
 import twilio from 'twilio';
 import dotenv from 'dotenv';
 
@@ -21,11 +22,16 @@ class SheetsDB {
 
   async init() {
     try {
-      const serviceAccountAuth = new JWT({
-        email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-      });
+     import { readFileSync } from 'fs';
+const serviceAccount = JSON.parse(
+  readFileSync('./accounting-mvp-482812-988efc5e2ee1.json', 'utf8')
+);
+
+const serviceAccountAuth = new JWT({
+  email: serviceAccount.client_email,
+  key: serviceAccount.private_key,
+  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+});
 
       this.doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, serviceAccountAuth);
       await this.doc.loadInfo();
@@ -482,4 +488,5 @@ const engine = new AccountingEngine(db);
     console.error('❌ Failed to start server:', error);
     process.exit(1);
   }
+
 })();
