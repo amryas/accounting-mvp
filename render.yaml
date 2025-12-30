@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: accounting-mvp
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+```
+
+**5. scroll لتحت → اكتب في Commit message:**
+```
+Add render config
