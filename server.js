@@ -1,9 +1,9 @@
 import express from 'express';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
-import { readFileSync } from 'fs';
 import twilio from 'twilio';
 import dotenv from 'dotenv';
+import { readFileSync } from 'fs';
 
 dotenv.config();
 
@@ -22,16 +22,16 @@ class SheetsDB {
 
   async init() {
     try {
-     import { readFileSync } from 'fs';
-const serviceAccount = JSON.parse(
-  readFileSync('./accounting-mvp-482812-988efc5e2ee1.json', 'utf8')
-);
+      // Read service account from JSON file
+      const serviceAccount = JSON.parse(
+        readFileSync('./accounting-mvp-482812-988efc5e2ee1.json', 'utf8')
+      );
 
-const serviceAccountAuth = new JWT({
-  email: serviceAccount.client_email,
-  key: serviceAccount.private_key,
-  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-});
+      const serviceAccountAuth = new JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+      });
 
       this.doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, serviceAccountAuth);
       await this.doc.loadInfo();
@@ -394,7 +394,7 @@ app.post('/webhook/whatsapp', async (req, res) => {
 });
 
 // ========================================
-// REST API Endpoints (للموبايل أب)
+// REST API Endpoints
 // ========================================
 
 // Health check
@@ -488,5 +488,4 @@ const engine = new AccountingEngine(db);
     console.error('❌ Failed to start server:', error);
     process.exit(1);
   }
-
 })();
