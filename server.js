@@ -3,7 +3,6 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
 import twilio from 'twilio';
 import dotenv from 'dotenv';
-import { readFileSync } from 'fs';
 
 dotenv.config();
 
@@ -23,15 +22,11 @@ class SheetsDB {
   async init() {
     try {
       // Read service account from JSON file
-      const serviceAccount = JSON.parse(
-        readFileSync('./accounting-mvp-482812-988efc5e2ee1.json', 'utf8')
-      );
-
       const serviceAccountAuth = new JWT({
-        email: serviceAccount.client_email,
-        key: serviceAccount.private_key,
-        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-      });
+  email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  key: process.env.GOOGLE_PRIVATE_KEY,
+  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+});
 
       this.doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, serviceAccountAuth);
       await this.doc.loadInfo();
@@ -489,3 +484,4 @@ const engine = new AccountingEngine(db);
     process.exit(1);
   }
 })();
+
